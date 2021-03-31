@@ -7,6 +7,20 @@ class AuthService {
         return firebaseApp.auth().signInWithPopup(authProvider)
     }
     //어떤 Provider를 쓰는지에 따라, 다양한 업체 로그인이 가능하도록 만들어 줄 예정.
+
+    logout(){
+        firebase.auth().signOut();
+    }
+
+    onAuthChange(onUserChanged) {
+        firebase.auth().onAuthStateChanged(user => {
+            onUserChanged(user);
+        })
+        
+    }
 }
+
+
+
 
 export default AuthService;

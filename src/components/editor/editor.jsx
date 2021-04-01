@@ -3,14 +3,17 @@ import CardAddForm from '../card_edit_form copy/card_add_form';
 import CardEditForm from '../card_edit_form/card_edit_form';
 import Styles from './editor.module.css';
 
-const Editor = ({cards, addCard}) => {
+const Editor = ({cards, addCard, updateCard, deleteCard}) => {
     return(
         <section className={Styles.editor}>
             <h1 className={Styles.title}>Card Maker</h1>
-            {cards.map(card =>  (
+            {Object.keys(cards).map(key =>  (
             <CardEditForm 
-            key={card.id}
-            card={card} />
+            key={key}
+            card={cards[key]} 
+            updateCard={updateCard}
+            deleteCard={deleteCard}
+            />
         ))}
         <CardAddForm 
             onAdd={addCard}

@@ -4,7 +4,7 @@ import Styles from './card_add_form.module.css';
 
 const CardAddForm = ({onAdd, FileInput}) => {
 
-    const formRef=useRef();
+    const formRef= useRef();
     const nameRef = useRef();
     const companyRef = useRef();
     const themeRef = useRef();

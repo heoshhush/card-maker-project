@@ -6,45 +6,10 @@ import Header from '../header/header';
 import Preview from '../preview/preview';
 import Styles from './maker.module.css'
 
-const Maker = ({authService, FileInput}) => {
-    const [cards, setCards] = useState({
-        1 :  {
-            id: '1',
-            name: 'heo',
-            company: '어딘가',
-            theme: 'dark',
-            title: 'software Engineer',
-            email: 'heo@gmail.com',
-            message: 'go for it',
-            fileName: 'heoheo',
-            fileURL: null,
-        },
-
-        2 : {
-            id: '2',
-            name: 'heo2',
-            company: '어딘가',
-            theme: 'light',
-            title: 'software Engineer',
-            email: 'heo@gmail.com',
-            message: 'go for it',
-            fileName: 'heoheo',
-            fileURL: null,
-        },
-
-        3 :  {
-            id: '3',
-            name: 'heo3',
-            company: '어딘가',
-            theme: 'colorful',
-            title: 'software Engineer',
-            email: 'heo@gmail.com',
-            message: 'go for it',
-            fileName: 'heoheo',
-            fileURL: null,
-        }
-
-    });
+const Maker = ({authService, FileInput, cardRepository}) => {
+    const historyState = useHistory().state
+    const [cards, setCards] = useState({});
+    const [userId, setUserId] = useState(historyState && historyState.id)
     
 
     const history = useHistory();
@@ -55,23 +20,35 @@ const Maker = ({authService, FileInput}) => {
 
         useEffect(() => {
             authService.onAuthChange(user => {
-                if(!user) {
+                if(user) {
+                    setUserId(user.uid);
+                }
+                else if(!user) {
                     history.push('/');
                 }
             })
         })
 
+
+
     const createOrUpdateCard = (card) => {
-        const updated = {...cards};
-        updated[card.id] = card;
-        setCards(updated)
+        setCards(cards => {
+            const updated = {...cards};
+            updated[card.id] = card;
+            return updated;
+        });
+        cardRepository.saveCard(userId, card);
     }
 
     const deleteCard = (card) => {
-        const updated = {...cards};
-        delete updated[card.id]
-        setCards(updated)
+        setCards (cards => {
+            const updated = {...cards};
+            delete updated[card.id];
+            return updated
+        })
+        cardRepository.removeCard(userId, card);
     }
+
 
     
 

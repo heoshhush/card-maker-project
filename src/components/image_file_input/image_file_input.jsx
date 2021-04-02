@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import ImageUploader from '../../service/image_uploader';
 import Styles from './image_file_input.module.css'
 
 const ImageFileInput = ({imageUploader, name, onFileChange}) => {
